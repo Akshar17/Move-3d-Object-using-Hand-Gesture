@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <script id="vertex-shader" type="x-shader/x-vertex">
+
+    attribute vec4 myPosition;
+                attribute vec4 myColor;
+                varying vec4 vColor;
+                //uniform vec2 scalePosition;
+
+                uniform mat4 Mx;
+                uniform mat4 My;
+                uniform mat4 Mz;
+                uniform mat4 Mw;
+                uniform mat4 Md;
+                uniform mat4 Ms;
+                uniform mat4 Ma;
+
+                void main() {
+
+                    vec4 vf;
+                    vec4 vi = myPosition;
+
+                    //vf = Ma * Ms * Md * Mw * Mz * My * Mx * vi;
+                    vf = Md * vi;
+                    //vf = Ma * Mw * Md * Ms * Mz * My * Mx * vi;
+                    gl_Position =  vf ;
+                    //gl_Position = Mx * My * myPosition;
+                    vColor = myColor;
+                }
+
+</script>
+
+  <script id="fragment-shader" type="x-shader/x-fragment">
+
+    precision mediump float;
+                varying vec4 vColor;
+
+                void main() {
+                    gl_FragColor = vColor;
+                }
+  </script>
+
+  <script type="text/javascript" src="Common/webgl-utils.js"></script>
+  <script type="text/javascript" src="Common/initShaders.js"></script>
+  <script type="text/javascript" src="Common/MV.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+  <script type="text/javascript" src="handmove.js"></script>
+  <style>
+    h2 {
+      position: absolute;
+      right: 200px;
+      top: 50px;
+    }
+  </style>
+</head>
+
+<body onload="initGL()">
+  <canvas id="gl-canvas" width="512" height="512"></canvas><br />
+
+  <h2>Steps to Execute <br><br>
+    First run python file 'handapi.py'<br><br>
+    Step 1: Press Start Recording<br>
+    Step 2: Double click on you palm<br>
+    Step 3: Move your palm<br>
+    Step 4: Press 'q' key to terminate frame <br>
+    Step 5: You will be able to see object moving<br>
+    Step 6: Press Reset button<br>
+    Step 7: Repeat Steps to load again<br><br />
+
+    Terminate 'handapi.py' by ctrl+c or cmd+c <br> </h2>
+<button id="start"  onclick="startRecording()">Start Recording</button>
+<button id="stop"  onclick="history.go(0)">Reset</button>
+
+</body>
+</html>
